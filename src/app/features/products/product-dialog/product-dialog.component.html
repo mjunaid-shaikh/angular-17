@@ -1,0 +1,54 @@
+<!-- dynamic title based on mode -->
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Product' : 'Add Product' }}</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="productForm">
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Product Name</mat-label>
+            <input formControlName="name" matInput placeholder="Enter product name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+                <mat-option value="Electronics">Electronics</mat-option>
+                <mat-option value="Furniture">Furniture</mat-option>
+                <mat-option value="Stationery">Stationery</mat-option>
+                <mat-option value="Clothing">Clothing</mat-option>
+                <mat-option value="Other">Other</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Price</mat-label>
+            <input matInput formControlName="price" type="number" placeholder="Enter price" />
+            <span matTextPrefix>₹&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Stock</mat-label>
+            <input matInput formControlName="stock" type="number" placeholder="Enter stock quantity" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                <mat-option value="active">Active</mat-option>
+                <mat-option value="inactive">Inactive</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="3" formControlName="description"
+                placeholder="Enter product description"></textarea>
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" (click)="onSave()">Save</button>
+</mat-dialog-actions>
