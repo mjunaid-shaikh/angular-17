@@ -1,0 +1,50 @@
+<div class="login-wrapper">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+            <mat-card-subtitle>Welcome back!</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" placeholder="Enter your email" />
+                    <mat-icon matSuffix>email</mat-icon>
+
+                    @if (email?.hasError('required')) {
+                    <mat-error>Email is required</mat-error>
+                    }@else if (email?.hasError('email')) {
+                    <mat-error>Enter a valid email</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'"
+                        placeholder="Enter your password" />
+                    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    @if (password?.hasError('required')) {
+                    <mat-error>Password is required</mat-error>
+                    } @else if (password?.hasError('minlength')) {
+                    <mat-error>Minimum 6 characters required</mat-error>
+                    }
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit" class="full-width"
+                    [disabled]="loginForm.invalid">
+                    Login
+                </button>
+
+            </form>
+        </mat-card-content>
+
+        <mat-card-footer class="login-footer">
+            Don't have an account?
+            <a routerLink="/auth/register">Register here</a>
+        </mat-card-footer>
+    </mat-card>
+</div>
