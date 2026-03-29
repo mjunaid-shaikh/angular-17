@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
+import { AppHighlights } from '../../../shared/directives/appHighlight.directive';
 
 @Component({
   selector: 'app-product-list',
@@ -24,7 +25,8 @@ import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    TruncatePipe
+    TruncatePipe,
+    AppHighlights
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
