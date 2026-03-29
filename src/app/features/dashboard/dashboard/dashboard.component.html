@@ -1,1 +1,94 @@
-<p>dashboard works!</p>
+<div class="dashboard-wrapper">
+
+    <!-- Summary Cards -->
+    <div class="cards-grid">
+        <mat-card class="summary-card total">
+            <mat-card-content>
+                <div class="card-inner">
+                    <div>
+                        <p class="card-label">Total Products</p>
+                        <h2 class="card-value">{{ totalProducts }}</h2>
+                    </div>
+                    <mat-icon class="card-icon">inventory_2</mat-icon>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="summary-card active">
+            <mat-card-content>
+                <div class="card-inner">
+                    <div>
+                        <p class="card-label">Active Products</p>
+                        <h2 class="card-value">{{ activeProducts }}</h2>
+                    </div>
+                    <mat-icon class="card-icon">check_circle</mat-icon>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="summary-card inactive">
+            <mat-card-content>
+                <div class="card-inner">
+                    <div>
+                        <p class="card-label">Inactive Products</p>
+                        <h2 class="card-value">{{ inactiveProducts }}</h2>
+                    </div>
+                    <mat-icon class="card-icon">cancel</mat-icon>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="summary-card stock">
+            <mat-card-content>
+                <div class="card-inner">
+                    <div>
+                        <p class="card-label">Total Stock</p>
+                        <h2 class="card-value">{{ totalStock }}</h2>
+                    </div>
+                    <mat-icon class="card-icon">warehouse</mat-icon>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+    <!-- Recent Products -->
+    <mat-card class="recent-card">
+        <mat-card-header>
+            <mat-card-title>Recent Products</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table [dataSource]="recentProducts" class="full-width">
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <th mat-header-cell *matHeaderCellDef>Category</th>
+                    <td mat-cell *matCellDef="let product">{{ product.category }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>Price</th>
+                    <td mat-cell *matCellDef="let product">₹{{ product.price }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let product">
+                        <span [class]="'badge badge-' + product.status">
+                            {{ product.status }}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+        </mat-card-content>
+    </mat-card>
+
+</div>
