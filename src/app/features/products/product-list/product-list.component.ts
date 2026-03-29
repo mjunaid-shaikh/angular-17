@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
@@ -6,7 +6,12 @@ import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product';
 import { CONFIG } from '../../../_config/config';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-product-list',
@@ -15,14 +20,22 @@ import { MatTableModule } from '@angular/material/table';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TruncatePipe
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
-export class ProductListComponent implements OnInit {
-  products: Product[] = [];
+export class ProductListComponent implements OnInit, AfterViewInit {
+  // products: Product[] = [];
+  dataSource = new MatTableDataSource<Product>([]);
   displayedColumns: string[] = ['name', 'category', 'price', 'stock', 'status', 'actions'];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort
 
 
   constructor(private dialog: MatDialog, private productService: ProductService) { }
@@ -31,10 +44,26 @@ export class ProductListComponent implements OnInit {
     this.loadProducts();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    // reset to first page when filtering
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   loadProducts() {
     this.productService.getProducts(CONFIG.getProduct).subscribe((data: any) => {
       if (data?.status) {
-        this.products = data?.data
+        this.dataSource.data = data?.data
+        // this.products = data?.data
       }
     })
   }
