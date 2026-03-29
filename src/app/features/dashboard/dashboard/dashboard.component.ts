@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product';
 import { CONFIG } from '../../../_config/config';
+import { AppHighlights } from '../../../shared/directives/appHighlight.directive';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,8 @@ import { CONFIG } from '../../../_config/config';
   imports: [
     MatCardModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    AppHighlights
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
