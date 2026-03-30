@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) return
     let formValue = this.loginForm.value;
     localStorage.setItem('userInfo', JSON.stringify(formValue))
+    this.router.navigate(['/dashboard'])
     console.log(formValue);
   }
 
