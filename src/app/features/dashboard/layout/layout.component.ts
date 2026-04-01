@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -25,4 +25,11 @@ export class LayoutComponent {
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
     { label: 'Products', icon: 'inventory_2', route: '/products' },
   ]
+
+  constructor(private router: Router) { }
+
+  logout() {
+    localStorage.removeItem('userInfo');
+    this.router.navigate([''])
+  }
 }
