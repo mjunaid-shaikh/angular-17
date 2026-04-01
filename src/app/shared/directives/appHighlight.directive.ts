@@ -11,13 +11,10 @@ export class AppHighlights {
 
     @HostListener('mouseenter')
     onMouseEnter() {
-        console.log('testEnter');
-
         this.el.nativeElement.style.backgroundColor = this.appHighlight;
     }
     @HostListener('mouseleave')
     onMouseLeave() {
-        console.log('testOut');
         this.el.nativeElement.style.backgroundColor = '';
     }
 }
