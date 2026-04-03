@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { passwordMatchValidator } from '../../../shared/validators/password-match.validator';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup = new FormGroup({})
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
 
   }
 
@@ -56,9 +57,11 @@ export class RegisterComponent implements OnInit {
       fullName: registerData.fullName.trim(),
       email: registerData.email,
       password: registerData.password,
-      cnfPassword: registerData.cnfPassword,
     }
-    console.log('registerData', regObj);
+    this.authService.registerUser(regObj).subscribe((data: any) => {
+      console.log(data);
+
+    })
 
   }
 }

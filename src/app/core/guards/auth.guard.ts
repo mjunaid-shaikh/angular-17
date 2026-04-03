@@ -8,8 +8,8 @@ export const authGuard: CanActivateFn = () => {
 
   // only access localStorage in browser
   if (isPlatformBrowser(platformId)) {
-    const user = localStorage.getItem('userInfo')
-    if (user) {
+    const token = localStorage.getItem('token')
+    if (token) {
       return true
     }
   }

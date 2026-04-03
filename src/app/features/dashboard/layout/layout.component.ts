@@ -29,7 +29,7 @@ export class LayoutComponent {
   constructor(private router: Router) { }
 
   logout() {
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem('token');
     this.router.navigate([''])
   }
 }
