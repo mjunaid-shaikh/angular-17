@@ -1,9 +1,11 @@
 <mat-toolbar color="primary">
     <span>My App</span>
     <span class="spacer"></span>
+    @if(isLoggedIn){
     <button (click)="logout()" mat-icon-button>
         <mat-icon>logout</mat-icon>
     </button>
+    }
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">

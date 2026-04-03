@@ -5,6 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -26,10 +27,13 @@ export class LayoutComponent {
     { label: 'Products', icon: 'inventory_2', route: '/products' },
   ]
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
+
+  get isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigate([''])
+    this.authService.logout();
   }
 }
