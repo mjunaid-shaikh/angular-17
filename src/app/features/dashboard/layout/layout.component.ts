@@ -22,9 +22,11 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
+
   navLinks = [
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
     { label: 'Products', icon: 'inventory_2', route: '/products' },
+    { label: 'Orders', icon: 'shopping_cart', route: '/orders' },
   ]
 
   constructor(private router: Router, private authService: AuthService) { }

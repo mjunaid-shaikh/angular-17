@@ -36,7 +36,10 @@ export const routes: Routes = [
             {
                 path: 'products',
                 loadComponent: () => import('./features/products/product-list/product-list.component').then(m => m.ProductListComponent)
-            }
+            }, {
+                path: 'orders',
+                loadComponent: () => import('./features/orders/order-form/order-form.component').then(m => m.OrderFormComponent)
+            },
         ]
     },
     // fallback
