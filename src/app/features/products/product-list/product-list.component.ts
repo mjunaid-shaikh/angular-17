@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
@@ -18,6 +18,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 @Component({
   selector: 'app-product-list',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatTableModule,
     MatButtonModule,
@@ -32,13 +33,16 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
-export class ProductListComponent implements OnInit, AfterViewInit {
+export class ProductListComponent implements OnInit, AfterViewInit, DoCheck {
   // products: Product[] = [];
   dataSource = new MatTableDataSource<Product>([]);
   displayedColumns: string[] = ['name', 'category', 'price', 'stock', 'status', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort
+  @ViewChild(MatSort) sort!: MatSort;
+
+
+  private cdr = inject(ChangeDetectorRef);
 
 
   constructor(private dialog: MatDialog, private productService: ProductService, private snackbar: SnackbarService) { }
@@ -51,6 +55,11 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  ngDoCheck(): void {
+    console.log('change detection strategy runs')
+  }
+
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -67,9 +76,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       if (data?.status) {
         this.snackbar.success(data?.message);
         this.dataSource.data = data?.data
+        this.cdr.markForCheck();  // ← tell Angular to check this component
         // this.products = data?.data
       } else {
-        this.snackbar.error(data?.error)
+        this.snackbar.error('Failed to load products!')
       }
     })
   }

@@ -1,0 +1,56 @@
+Angular 17 Project — Full Checklist
+
+✅ Project Setup
+Angular 17 standalone components
+Angular Material (Indigo/Pink theme)
+Clean folder structure (core, shared, features)
+Environment files (dev + prod)
+Config file for API endpoints
+
+✅ Layout & Navigation
+Toolbar + Sidenav (Angular Material)
+Active route highlighting
+Responsive layout
+
+✅ Routing
+Lazy loading with loadComponent
+Auth guard (JWT based)
+Public routes (auth) vs Protected routes (dashboard, products, orders)
+
+✅ Authentication
+Register form (Reactive Forms + validation + password match validator)
+Login form (Reactive Forms + validation)
+JWT token (Node.js + bcrypt + jsonwebtoken)
+Token stored in localStorage
+Auto logout on token expiry (interceptor)
+AuthService (login, register, logout, isLoggedIn)
+
+✅ HTTP
+HttpClient with provideHttpClient
+AuthInterceptor — attaches token to every request
+catchError — auto logout on 401
+
+✅ Products CRUD
+MatTable with pagination, sorting, search
+Add product (MatDialog)
+Edit product (MatDialog with prefilled data)
+Delete product
+Connected to Node.js + MongoDB
+
+✅ Dashboard
+Summary cards (total, active, inactive, stock)
+Recent products table
+
+✅ Node.js Backend
+Express + MongoDB + Mongoose
+Auth routes (register, login)
+Product routes (CRUD)
+JWT middleware protecting product routes
+CORS configured
+bcrypt password hashing
+
+✅ Reusable Concepts
+Custom Pipe (TruncatePipe)
+Custom Directive (HighlightDirective)
+SnackbarService (success/error notifications)
+OnPush change detection strategy
