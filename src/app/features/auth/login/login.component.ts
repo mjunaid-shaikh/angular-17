@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   hidePassword: boolean = true;
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private snackbar: SnackbarService) { }
 
   get email() { return this.loginForm.get('email') }
   get password() { return this.loginForm.get('password') }
@@ -49,9 +50,12 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(formValue).subscribe((data: any) => {
       if (data?.status) {
+        this.snackbar.success('Logged in successful!')
         localStorage.setItem('token', data?.data?.token)
         localStorage.setItem('userInfo', JSON.stringify(data?.data?.user))
         this.router.navigate(['/dashboard'])
+      } else {
+        this.snackbar.error('Invalid email or password!');
       }
     })
   }

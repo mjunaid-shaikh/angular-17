@@ -17,3 +17,16 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+
+// snackbar styles
+.snack-success {
+    --mdc-snackbar-container-color: #2e7d32 !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+    --mat-snack-bar-button-color: white !important;
+}
+
+.snack-error {
+    --mdc-snackbar-container-color: #c62828 !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+    --mat-snack-bar-button-color: white !important;
+}

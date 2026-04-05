@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 import { AppHighlights } from '../../../shared/directives/appHighlight.directive';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-product-list',
@@ -40,7 +41,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort
 
 
-  constructor(private dialog: MatDialog, private productService: ProductService) { }
+  constructor(private dialog: MatDialog, private productService: ProductService, private snackbar: SnackbarService) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -64,8 +65,11 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   loadProducts() {
     this.productService.getProducts(CONFIG.getProduct).subscribe((data: any) => {
       if (data?.status) {
+        this.snackbar.success(data?.message);
         this.dataSource.data = data?.data
         // this.products = data?.data
+      } else {
+        this.snackbar.error(data?.error)
       }
     })
   }
@@ -90,10 +94,24 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     })
   }
 
+  // saveProduct(data: Product) {
+  //   this.productService.createProduct(CONFIG.createProduct, data).subscribe((data: any) => {
+  //     if (data?.status) {
+  //       this.snackbar.success('Product added successfully!');
+  //       this.loadProducts();
+  //     }
+  //   })
+  // }
   saveProduct(data: Product) {
-    this.productService.createProduct(CONFIG.createProduct, data).subscribe((data: any) => {
-      if (data?.status) {
-        this.loadProducts();
+    this.productService.createProduct(CONFIG.createProduct, data).subscribe({
+      next: (resp: any) => {
+        if (resp.status) {
+          this.snackbar.success('Product added successfully!');
+          this.loadProducts();
+        }
+      },
+      error: (err: any) => {
+        this.snackbar.error('Failed to update product!');
       }
     })
   }
@@ -101,7 +119,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   updateProduct(id: string, data: Product) {
     this.productService.updateProduct(CONFIG.updateProduct, id, data).subscribe((data) => {
       if (data?.status) {
+        this.snackbar.success('Product added successfully!');
         this.loadProducts();
+      } else {
+        this.snackbar.error('Failed to add product!');
       }
     })
   }
@@ -109,7 +130,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   deleteProduct(id: string) {
     this.productService.deleteProduct(CONFIG.deleteProduct, id).subscribe((data) => {
       if (data.status) {
+        this.snackbar.success('Product deleted successfully!');
         this.loadProducts();
+      } else {
+        this.snackbar.error('failed to delete the product!')
       }
     })
   }
