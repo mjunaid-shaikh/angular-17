@@ -7,6 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { OrderService } from '../../../core/services/order.service';
+import { CONFIG } from '../../../_config/config';
+import { Order } from '../../../core/models/orders';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-order-form',
@@ -27,7 +31,7 @@ export class OrderFormComponent implements OnInit {
 
   orderForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private orderService: OrderService, private snackbar: SnackbarService) { }
 
   ngOnInit(): void {
     this.orderForm = this.fb.group({
@@ -83,7 +87,20 @@ export class OrderFormComponent implements OnInit {
   // Submit
   onSubmit(): void {
     if (this.orderForm.valid) {
-      console.log('Form Value:', this.orderForm.value);
+      let formValue = this.orderForm.value
+      let orderRequest = {
+        customerName: formValue?.customerName,
+        email: formValue.email,
+        items: formValue?.items
+      }
+
+      this.orderService.createOrders(CONFIG.createOrder, orderRequest).subscribe((orderData: any) => {
+        if (orderData?.status) {
+          this.snackbar.success(orderData?.message)
+        } else {
+          this.snackbar.error(orderData?.message)
+        }
+      })
     }
   }
 }
