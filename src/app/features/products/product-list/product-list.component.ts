@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 import { AppHighlights } from '../../../shared/directives/appHighlight.directive';
 import { SnackbarService } from '../../../core/services/snackbar.service';
+import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-product-list',
@@ -41,6 +42,7 @@ export class ProductListComponent implements OnInit, AfterViewInit, DoCheck {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  private confirmDialog = inject(ConfirmDialogService);
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -137,13 +139,23 @@ export class ProductListComponent implements OnInit, AfterViewInit, DoCheck {
     })
   }
 
-  deleteProduct(id: string) {
-    this.productService.deleteProduct(CONFIG.deleteProduct, id).subscribe((data) => {
-      if (data.status) {
-        this.snackbar.success('Product deleted successfully!');
-        this.loadProducts();
-      } else {
-        this.snackbar.error('failed to delete the product!')
+  deleteProduct(id: string): void {
+    this.confirmDialog.confirm(
+      "Delete Product",
+      "Are you sure you want to delete this product? This action cannot be undone.",
+      "Delete",
+      "Cancel"
+    ).subscribe(result => {
+      if (result) {
+        this.productService.deleteProduct(CONFIG.deleteProduct, id).subscribe({
+          next: (res: any) => {
+            if (res?.status) {
+              this.snackbar.success('Product deleted successfully!');
+              this.loadProducts();
+            }
+          },
+          error: () => this.snackbar.error('Failed to delete product!')
+        });
       }
     })
   }
