@@ -30,6 +30,7 @@ export class LayoutComponent {
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
     { label: 'Products', icon: 'inventory_2', route: '/products' },
     { label: 'Orders', icon: 'shopping_cart', route: '/orders' },
+    { label: 'Profile', icon: 'person', route: '/profile' },
   ]
 
   constructor(private router: Router, private authService: AuthService) { }

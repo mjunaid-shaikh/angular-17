@@ -3,7 +3,6 @@ import { LayoutComponent } from './features/dashboard/layout/layout.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    // 1. Auth routes — public, no layout
     {
         path: 'auth',
         children: [
@@ -15,14 +14,9 @@ export const routes: Routes = [
                 path: 'register',
                 loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
             },
-            {
-                path: '',
-                redirectTo: 'login',
-                pathMatch: 'full'
-            }
+            { path: '', redirectTo: 'login', pathMatch: 'full' }
         ]
     },
-    // 2. Protected routes — wrapped in layout
     {
         path: '',
         component: LayoutComponent,
@@ -36,15 +30,23 @@ export const routes: Routes = [
             {
                 path: 'products',
                 loadComponent: () => import('./features/products/product-list/product-list.component').then(m => m.ProductListComponent)
-            }, {
+            },
+            {
                 path: 'orders',
-                loadComponent: () => import('./features/orders/order-form/order-form.component').then(m => m.OrderFormComponent)
+                loadComponent: () => import('./features/orders/order-list/order-list.component').then(m => m.OrderListComponent)  // ← list page
+            },
+            {
+                path: 'orders/create',
+                loadComponent: () => import('./features/orders/order-form/order-form.component').then(m => m.OrderFormComponent)  // ← create page
+            },
+            {
+                path: 'profile',
+                loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent)
             },
         ]
     },
-    // fallback
     {
         path: '**',
-        redirectTo: 'dashboard'
+        loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent)
     }
 ];

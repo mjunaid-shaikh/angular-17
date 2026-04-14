@@ -10,4 +10,6 @@ export const CONFIG = {
     updateProduct: 'update-product',
     createOrder: 'create-order',
     getOrders: 'get-orders',
+    getAllOrders: 'orders/getall-orders',
+    getDeleteOrder: 'orders/delete-orders',
 }

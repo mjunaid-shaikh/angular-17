@@ -26,5 +26,11 @@ export class OrderService {
         return this.http.delete(`${environment.baseURL}${url}/${id}`);
     }
 
+    getAllOrdersList(url: string) {
+        return this.http.get(environment.baseURL + url)
+    }
 
+    deleteOrderList(url: string, id: string) {
+        return this.http.delete(`${environment.baseURL}${url}/${id}`);
+    }
 }
