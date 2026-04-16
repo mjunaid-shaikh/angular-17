@@ -7,7 +7,7 @@
                 <div class="card-inner">
                     <div>
                         <p class="card-label">Total Products</p>
-                        <h2 class="card-value">{{ totalProducts }}</h2>
+                        <h2 class="card-value">{{ totalProducts() }}</h2>
                     </div>
                     <mat-icon class="card-icon">inventory_2</mat-icon>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="card-inner">
                     <div>
                         <p class="card-label">Active Products</p>
-                        <h2 class="card-value">{{ activeProducts }}</h2>
+                        <h2 class="card-value">{{ activeProducts() }}</h2>
                     </div>
                     <mat-icon class="card-icon">check_circle</mat-icon>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="card-inner">
                     <div>
                         <p class="card-label">Inactive Products</p>
-                        <h2 class="card-value">{{ inactiveProducts }}</h2>
+                        <h2 class="card-value">{{ inactiveProducts() }}</h2>
                     </div>
                     <mat-icon class="card-icon">cancel</mat-icon>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="card-inner">
                     <div>
                         <p class="card-label">Total Stock</p>
-                        <h2 class="card-value">{{ totalStock }}</h2>
+                        <h2 class="card-value">{{ totalStock() }}</h2>
                     </div>
                     <mat-icon class="card-icon">warehouse</mat-icon>
                 </div>
@@ -58,7 +58,7 @@
             <mat-card-title>Recent Products</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <table mat-table [dataSource]="recentProducts" class="full-width">
+            <table mat-table [dataSource]="recentProducts()" class="full-width">
 
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Name</th>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,7 +28,14 @@ export class ProfileComponent implements OnInit {
 
   profileForm: FormGroup = new FormGroup({});
   hidePassword = true;
-  user: any = null;
+  // user: any = null;
+  user = signal<any>(null);
+
+  constructor() {
+    effect(() => {
+      console.log('User changed:', this.user());
+    })
+  }
 
   private fb = inject(FormBuilder);
   private snackbar = inject(SnackbarService);
@@ -38,20 +45,21 @@ export class ProfileComponent implements OnInit {
     // get user from localStorage
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
-      this.user = JSON.parse(userInfo);
+      // this.user = JSON.parse(userInfo);
+      this.user.set(JSON.parse(userInfo))
     }
 
     this.profileForm = this.fb.group({
-      fullName: [this.user?.fullName || '', [Validators.required]],
-      email: [this.user?.email || '', [Validators.required, Validators.email]],
+      fullName: [this.user()?.fullName || '', [Validators.required]],
+      email: [this.user()?.email || '', [Validators.required, Validators.email]],
       password: ['', [Validators.minLength(6)]]  // ← optional, no required validator
     });
   }
 
   // get initials from name for avatar
   getInitials(): string {
-    if (!this.user?.fullName) return '?';
-    return this.user.fullName
+    if (!this.user()?.fullName) return '?';
+    return this.user().fullName
       .split(' ')
       .map((n: string) => n[0])
       .join('')
@@ -79,7 +87,8 @@ export class ProfileComponent implements OnInit {
     })
 
     localStorage.setItem('userInfo', JSON.stringify(updated));
-    this.user = updated;
+    // this.user = updated;
+    this.user.set(updated)
 
     this.snackbar.success('Profile updated successfully!');
   }
