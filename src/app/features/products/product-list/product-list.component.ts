@@ -59,7 +59,6 @@ export class ProductListComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    console.log('change detection strategy runs')
   }
 
 

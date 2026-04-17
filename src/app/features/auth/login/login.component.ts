@@ -48,14 +48,28 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) return
     let formValue = this.loginForm.value;
 
-    this.authService.loginUser(formValue).subscribe((data: any) => {
-      if (data?.status) {
-        this.snackbar.success('Logged in successful!')
-        localStorage.setItem('token', data?.data?.token)
-        localStorage.setItem('userInfo', JSON.stringify(data?.data?.user))
-        this.router.navigate(['/dashboard'])
-      } else {
-        this.snackbar.error('Invalid email or password!');
+    // this.authService.loginUser(formValue).subscribe((data: any) => {
+    //   if (data?.status) {
+    //     this.snackbar.success('Logged in successful!')
+    //     localStorage.setItem('token', data?.data?.token)
+    //     localStorage.setItem('userInfo', JSON.stringify(data?.data?.user))
+    //     this.router.navigate(['/dashboard'])
+    //   } else {
+    //     this.snackbar.error('Invalid email or password!');
+    //   }
+    // })
+
+    this.authService.loginUser(formValue).subscribe({
+      next: (resp: any) => {
+        if (resp.status) {
+          this.snackbar.success('Logged in successful!')
+          localStorage.setItem('token', resp?.data?.token)
+          localStorage.setItem('userInfo', JSON.stringify(resp?.data?.user))
+          this.router.navigate(['/dashboard'])
+        }
+      },
+      error: (error) => {
+        this.snackbar.error(error)
       }
     })
   }

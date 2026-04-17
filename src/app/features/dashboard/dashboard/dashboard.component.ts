@@ -41,12 +41,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log('test___', this.totalProducts, this.activeProducts, this.inactiveProducts)
-
-
-
     this.productService.getProducts(CONFIG.getProduct).subscribe((data: any) => {
-      console.log('data', data)
       if (data?.status) {
         let pData = data?.data;
 
