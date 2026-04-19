@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { NgFor } from '@angular/common';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -53,6 +53,7 @@ export class OrderFormComponent implements OnInit {
   // Create item row
   createItem(): FormGroup {
     return this.fb.group({
+      id: [Date.now()], // adding id to trackby the loop
       productName: ['', Validators.required],
       qty: [1, [Validators.required, Validators.min(1)]],
       price: [0, [Validators.required, Validators.min(0)]]
@@ -84,14 +85,22 @@ export class OrderFormComponent implements OnInit {
     }, 0);
   }
 
+  // use trackbyId instead of index
+  // trackByIndex(index: number): number {
+  //   return index
+  // }
+  trackById(index: number, control: AbstractControl): number {
+    return control.get('id')?.value;
+  }
+
   // Submit
   onSubmit(): void {
     if (this.orderForm.valid) {
-      let formValue = this.orderForm.value
+      let formValue = this.orderForm.value;
       let orderRequest = {
         customerName: formValue?.customerName,
         email: formValue.email,
-        items: formValue?.items
+        items: this.orderForm.value.items.map(({ id, ...rest }: any) => rest), // remove id was used just for trackby
       }
 
       this.orderService.createOrders(CONFIG.createOrder, orderRequest).subscribe((orderData: any) => {

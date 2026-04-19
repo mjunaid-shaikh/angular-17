@@ -1,56 +1,112 @@
-Angular 17 Project — Full Checklist
+🅰️ Angular 17 Project — Complete Summary
 
-✅ Project Setup
-Angular 17 standalone components
-Angular Material (Indigo/Pink theme)
+1. Project Foundation
+Angular 17 with Standalone Components (no NgModule)
+Angular Material UI library
 Clean folder structure (core, shared, features)
-Environment files (dev + prod)
-Config file for API endpoints
+Environment files (environment.ts, environment.development.ts)
+Config file for all API endpoints
+app.config.ts with provideRouter, provideHttpClient, provideAnimationsAsync
 
-✅ Layout & Navigation
-Toolbar + Sidenav (Angular Material)
-Active route highlighting
-Responsive layout
 
-✅ Routing
+2. Layout & Navigation
+Material Toolbar (top navbar with logout button)
+Material Sidenav (sidebar with nav links)
+Active route highlighting with routerLinkActive
+<router-outlet> for page rendering
+
+
+3. Routing
 Lazy loading with loadComponent
-Auth guard (JWT based)
-Public routes (auth) vs Protected routes (dashboard, products, orders)
+Public routes (login, register — no layout)
+Protected routes (dashboard, products, orders, profile — with layout)
+Auth Guard (functional, JWT based, isPlatformBrowser)
+Route Resolver (orders data prefetched before component loads)
+404 page (wildcard route)
 
-✅ Authentication
-Register form (Reactive Forms + validation + password match validator)
-Login form (Reactive Forms + validation)
-JWT token (Node.js + bcrypt + jsonwebtoken)
+
+Authentication (Angular + Node.js)
+Register form — Reactive Forms, validators, password match (group validator)
+Login form — Reactive Forms, validators
+JWT — jsonwebtoken + bcryptjs on Node.js
 Token stored in localStorage
-Auto logout on token expiry (interceptor)
-AuthService (login, register, logout, isLoggedIn)
+Auth Service — loginUser(), registerUser(), logout(), isLoggedIn()
+Auto logout on token expiry via interceptor catchError
 
-✅ HTTP
-HttpClient with provideHttpClient
-AuthInterceptor — attaches token to every request
-catchError — auto logout on 401
 
-✅ Products CRUD
-MatTable with pagination, sorting, search
-Add product (MatDialog)
-Edit product (MatDialog with prefilled data)
-Delete product
-Connected to Node.js + MongoDB
+4. HTTP & Interceptor
+HttpClient with provideHttpClient(withFetch())
+Auth Interceptor (functional) — attaches Bearer token to every request
+Global Error Interceptor
+Auto logout on 401 response
+Global loading spinner via finalize() in interceptor
 
-✅ Dashboard
-Summary cards (total, active, inactive, stock)
+
+5. Products CRUD
+MatTable with MatTableDataSource
+Pagination (MatPaginator)
+Sorting (MatSort, mat-sort-header)
+Search/Filter (dataSource.filter)
+Add Product via MatDialog
+Edit Product via MatDialog (prefilled with MAT_DIALOG_DATA)
+Delete Product with confirmation dialog
+Connected to Node.js + MongoDB REST API
+
+
+6. Orders
+FormArray — dynamic add/remove product rows
+Subtotal per row (qty × price)
+Auto calculated total
+Order List — MatTable with pagination, sorting, search, trackBy (id & index)
+Create Order — saves to MongoDB
+Delete Order with confirmation dialog
+Route Resolver — data prefetched before page loads
+
+
+7. Dashboard
+Summary cards (Total, Active, Inactive products, Total Stock)
+Angular Signals — signal(), computed() for reactive state
 Recent products table
 
-✅ Node.js Backend
-Express + MongoDB + Mongoose
-Auth routes (register, login)
-Product routes (CRUD)
-JWT middleware protecting product routes
-CORS configured
-bcrypt password hashing
 
-✅ Reusable Concepts
-Custom Pipe (TruncatePipe)
-Custom Directive (HighlightDirective)
-SnackbarService (success/error notifications)
-OnPush change detection strategy
+8. Profile Page
+Display logged in user info (from localStorage)
+Avatar with initials generated from name
+Update name, email, password
+Angular Signals + effect() for reactive user state
+Connected to Node.js update user API
+
+
+9. Reusable Concepts
+Custom Pipe — TruncatePipe (truncates long text)
+Custom Directive — HighlightDirective (hover row highlight, @HostListener, ElementRef)
+Snackbar Service — global success/error notifications
+Confirm Dialog Service — reusable delete confirmation
+Loader Service — global spinner using Angular Signals
+Loader Component — fixed overlay spinner
+
+
+1. Angular 17 Specific Features
+Standalone Components — standalone: true everywhere
+@if / @for — new control flow syntax
+inject() function — instead of constructor injection
+Functional Guards — CanActivateFn
+Functional Interceptors — HttpInterceptorFn
+Functional Resolvers — ResolveFn
+Angular Signals — signal(), computed(), effect()
+provideHttpClient(withFetch()) — SSR compatible
+withInterceptors([]) — new interceptor registration
+OnPush Change Detection — ChangeDetectionStrategy.OnPush
+loadComponent — lazy loading without modules
+
+
+11. Node.js Backend
+Express.js REST API
+MongoDB + Mongoose (schemas, models)
+Auth routes — register, login, update user
+Product routes — full CRUD
+Order routes — create, get all, delete
+JWT middleware — protects all product/order routes
+bcrypt — password hashing
+CORS configured for Angular dev server
+dotenv — environment variables
