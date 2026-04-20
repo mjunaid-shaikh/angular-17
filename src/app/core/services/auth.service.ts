@@ -42,6 +42,10 @@ export class AuthService {
         return this.http.put(this.base_URL + this.updateUser_URL, data);
     }
 
+    uploadProfilePic(formData: FormData) {
+        return this.http.post(this.base_URL + 'auth/upload-profile-pic', formData);
+    }
+
     logout() {
         localStorage.clear();
         return this.router.navigate(['/auth/login']);
