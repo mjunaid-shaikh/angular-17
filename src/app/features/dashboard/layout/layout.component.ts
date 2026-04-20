@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
+import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-layout',
@@ -26,20 +27,29 @@ import { LoaderComponent } from '../../../shared/components/loader/loader.compon
 })
 export class LayoutComponent {
 
-  navLinks = [
-    { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
-    { label: 'Products', icon: 'inventory_2', route: '/products' },
-    { label: 'Orders', icon: 'shopping_cart', route: '/orders' },
-    { label: 'Profile', icon: 'person', route: '/profile' },
-  ]
+  private authService = inject(AuthService);
+  private confirmDialog = inject(ConfirmDialogService)
 
-  constructor(private router: Router, private authService: AuthService) { }
+  navLinks = [
+    { label: 'Dashboard', icon: 'dashboard', route: '/dashboard', adminOnly: true },
+    { label: 'Products', icon: 'inventory_2', route: '/products', adminOnly: true },
+    { label: 'Orders', icon: 'shopping_cart', route: '/orders', adminOnly: false },
+    { label: 'Profile', icon: 'person', route: '/profile', adminOnly: false },
+  ];
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
 
   get isLoggedIn() {
     return this.authService.isLoggedIn();
   }
 
   logout() {
-    this.authService.logout();
+    this.confirmDialog.confirm('Logout', 'Are you sure you want to logout?', 'Confirm', 'Cancel').subscribe(result => {
+      if (result) {
+        this.authService.logout();
+      }
+    })
   }
 }

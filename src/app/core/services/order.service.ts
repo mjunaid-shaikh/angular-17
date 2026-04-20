@@ -3,12 +3,17 @@ import { inject, Injectable } from "@angular/core";
 import { Order } from "../models/orders";
 import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
+import { CONFIG } from "../../_config/config";
 
 @Injectable({
     providedIn: 'root'
 })
 export class OrderService {
     constructor(private http: HttpClient) { }
+
+    getOrders() {
+        return this.http.get(environment.baseURL + CONFIG.getAllOrders)
+    }
 
     createOrders(url: string, data: any): Observable<any> {
         return this.http.post(environment.baseURL + url, data)

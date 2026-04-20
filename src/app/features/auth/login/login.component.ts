@@ -65,7 +65,12 @@ export class LoginComponent implements OnInit {
           this.snackbar.success('Logged in successful!')
           localStorage.setItem('token', resp?.data?.token)
           localStorage.setItem('userInfo', JSON.stringify(resp?.data?.user))
-          this.router.navigate(['/dashboard'])
+
+          if (this.authService.isAdmin()) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/orders']);
+          }
         }
       },
       error: (error) => {

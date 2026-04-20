@@ -1,0 +1,33 @@
+.unauthorized-wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+}
+
+.content {
+    text-align: center;
+    padding: 40px;
+
+    .lock-icon {
+        font-size: 80px;
+        width: 80px;
+        height: 80px;
+        color: #c62828;
+        margin-bottom: 16px;
+    }
+
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 8px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 32px;
+    }
+}

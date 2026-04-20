@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { passwordMatchValidator } from '../../../shared/validators/password-match.validator';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup = new FormGroup({})
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
 
   }
 
@@ -58,10 +58,16 @@ export class RegisterComponent implements OnInit {
       email: registerData.email,
       password: registerData.password,
     }
-    this.authService.registerUser(regObj).subscribe((data: any) => {
-      console.log(data);
-
+    this.authService.registerUser(regObj).subscribe({
+      next: (data: any) => {
+        if (data?.status) {
+          this.registerForm.reset;
+          this.router.navigate(['/auth/login'])
+        }
+      },
+      error: (error) => {
+        console.error(error)
+      }
     })
-
   }
 }

@@ -16,6 +16,19 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
+    getUser(): void | any {
+        const userInfo = localStorage.getItem('userInfo');
+        return userInfo ? JSON.parse(userInfo) : null;
+    }
+
+    getRole(): string {
+        return this.getUser()?.role || 'user';
+    }
+
+    isAdmin(): boolean {
+        return this.getRole() === 'admin';
+    }
+
 
     registerUser(data: { fullName: string, email: string, password: string }) {
         return this.http.post(this.base_URL + this.register_URL, data)

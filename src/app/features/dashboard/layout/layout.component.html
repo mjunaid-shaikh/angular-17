@@ -15,10 +15,12 @@
     <mat-sidenav mode="side" opened class="sidenav">
         <mat-nav-list>
             @for (link of navLinks; track link.route) {
+            @if (!link.adminOnly || isAdmin) {
             <a mat-list-item [routerLink]="link.route" routerLinkActive="active-link">
                 <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
                 <span matListItemTitle>{{ link.label }}</span>
             </a>
+            }
             }
         </mat-nav-list>
     </mat-sidenav>
