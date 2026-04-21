@@ -1,8 +1,17 @@
 <div class="login-wrapper">
     <mat-card class="login-card">
+
         <mat-card-header>
-            <mat-card-title>Login</mat-card-title>
-            <mat-card-subtitle>Welcome back!</mat-card-subtitle>
+            <div class="card-top">
+                <div class="brand">
+                    <mat-icon class="brand-icon">dashboard</mat-icon>
+                    <span class="brand-name">MJSuite</span>
+                </div>
+                <div class="header-text">
+                    <!-- <h2 class="welcome-title">Welcome Back!</h2> -->
+                    <p class="welcome-subtitle">Sign in to continue</p>
+                </div>
+            </div>
         </mat-card-header>
 
         <mat-card-content>
@@ -12,10 +21,9 @@
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email" placeholder="Enter your email" />
                     <mat-icon matSuffix>email</mat-icon>
-
                     @if (email?.hasError('required')) {
                     <mat-error>Email is required</mat-error>
-                    }@else if (email?.hasError('email')) {
+                    } @else if (email?.hasError('email')) {
                     <mat-error>Enter a valid email</mat-error>
                     }
                 </mat-form-field>
@@ -34,7 +42,7 @@
                     }
                 </mat-form-field>
 
-                <button mat-raised-button color="primary" type="submit" class="full-width"
+                <button mat-raised-button color="primary" type="submit" class="full-width login-btn"
                     [disabled]="loginForm.invalid">
                     Login
                 </button>
@@ -46,5 +54,6 @@
             Don't have an account?
             <a routerLink="/auth/register">Register here</a>
         </mat-card-footer>
+
     </mat-card>
 </div>

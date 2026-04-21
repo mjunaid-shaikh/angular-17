@@ -2,8 +2,16 @@
     <mat-card class="register-card">
 
         <mat-card-header>
-            <mat-card-title>Register</mat-card-title>
-            <mat-card-subtitle>Create a new account</mat-card-subtitle>
+            <div class="card-top">
+                <div class="brand">
+                    <mat-icon class="brand-icon">dashboard</mat-icon>
+                    <span class="brand-name">MJSuite</span>
+                </div>
+                <div class="header-text">
+                    <h2 class="welcome-title">Create Account</h2>
+                    <p class="welcome-subtitle">Register to get started</p>
+                </div>
+            </div>
         </mat-card-header>
 
         <mat-card-content>
@@ -24,7 +32,7 @@
                     <mat-icon matSuffix>email</mat-icon>
                     @if(email?.hasError('required')){
                     <mat-error>Email is required</mat-error>
-                    }@else if(email?.hasError('email')){
+                    } @else if(email?.hasError('email')){
                     <mat-error>Required valid email</mat-error>
                     }
                 </mat-form-field>
@@ -38,28 +46,28 @@
                     </button>
                     @if(password?.hasError('required')){
                     <mat-error>Password is required</mat-error>
-                    }@else if(password?.hasError('minlength')){
-                    <mat-error>Minimum 6 characters required </mat-error>
+                    } @else if(password?.hasError('minlength')){
+                    <mat-error>Minimum 6 characters required</mat-error>
                     }
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Confirm Password</mat-label>
-                    <input formControlName="cnfPassword" [type]="hideCnfPassword ? 'password':'text'" matInput
+                    <input formControlName="cnfPassword" [type]="hideCnfPassword ? 'password' : 'text'" matInput
                         placeholder="Confirm your password" />
                     <button mat-icon-button matSuffix type="button" (click)="hideCnfPassword = !hideCnfPassword">
-                        <mat-icon>{{hideCnfPassword ? 'visibility_off':'visibility'}}</mat-icon>
+                        <mat-icon>{{hideCnfPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     @if(cnfPassword?.hasError('required')){
                     <mat-error>Password is required</mat-error>
-                    }@else if(cnfPassword?.hasError('minlength')){
-                    <mat-error>Minimum 6 characters required </mat-error>
-                    }@else if(registerForm.hasError('passwordMismatch') && cnfPassword?.touched){
+                    } @else if(cnfPassword?.hasError('minlength')){
+                    <mat-error>Minimum 6 characters required</mat-error>
+                    } @else if(registerForm.hasError('passwordMismatch') && cnfPassword?.touched){
                     <mat-error>Passwords do not match</mat-error>
                     }
                 </mat-form-field>
 
-                <button mat-raised-button color="primary" type="submit" class="full-width"
+                <button mat-raised-button color="primary" type="submit" class="full-width register-btn"
                     [disabled]="registerForm.invalid">
                     Register
                 </button>

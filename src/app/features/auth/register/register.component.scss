@@ -1,30 +1,161 @@
 .register-wrapper {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4facfe, #667eea, #764ba2, #4facfe);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        top: -80px;
+        right: -80px;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        bottom: -60px;
+        left: -60px;
+        animation: float 8s ease-in-out infinite reverse;
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .register-card {
     width: 100%;
     max-width: 420px;
     padding: 16px;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2) !important;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-top {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    .brand-icon {
+        color: #667eea;
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .brand-name {
+        font-size: 22px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+.header-text {
+    .welcome-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 4px;
+    }
+
+    .welcome-subtitle {
+        font-size: 14px;
+        color: #777;
+        margin: 0;
+    }
 }
 
 .full-width {
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
+}
+
+.register-btn {
+    margin-top: 8px;
+    height: 45px;
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #4facfe, #667eea) !important;
 }
 
 .register-footer {
     text-align: center;
     padding: 16px;
     font-size: 14px;
+    color: #555;
 
     a {
-        color: #3f51b5;
+        color: #667eea;
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
