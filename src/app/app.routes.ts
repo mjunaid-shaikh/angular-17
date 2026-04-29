@@ -53,6 +53,10 @@ export const routes: Routes = [
             {
                 path: 'unauthorized',
                 loadComponent: () => import('./features/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
+            },
+            {
+                path: 'notifications',
+                loadComponent: () => import('./features/notifications/notification-list/notification-list.component').then(m => m.NotificationListComponent)
             }
         ]
     },

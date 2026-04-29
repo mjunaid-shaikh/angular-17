@@ -1,0 +1,133 @@
+<div class="notification-wrapper">
+
+    <div class="page-header">
+        <div class="header-left">
+            <h2>Notifications</h2>
+            <span class="unread-badge" *ngIf="unreadCount > 0">
+                {{ unreadCount }} unread
+            </span>
+        </div>
+        <div class="header-actions">
+            <button mat-stroked-button (click)="markAllAsRead()" [disabled]="unreadCount === 0">
+                <mat-icon>done_all</mat-icon> Mark all read
+            </button>
+            <button mat-stroked-button color="warn" (click)="clearAll()" [disabled]="notifications.length === 0">
+                <mat-icon>delete_sweep</mat-icon> Clear all
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Notification (demo purposes) -->
+    <mat-card class="add-notification-card">
+        <mat-card-header>
+            <mat-card-title>Add Test Notification</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="add-row">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Title</mat-label>
+                    <input matInput [(ngModel)]="newTitle" placeholder="Notification title" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Message</mat-label>
+                    <input matInput [(ngModel)]="newMessage" placeholder="Notification message" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="type-field">
+                    <mat-label>Type</mat-label>
+                    <mat-select [(ngModel)]="newType">
+                        <mat-option value="success">Success</mat-option>
+                        <mat-option value="error">Error</mat-option>
+                        <mat-option value="warning">Warning</mat-option>
+                        <mat-option value="info">Info</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="addNotification()">
+                    <mat-icon>add</mat-icon> Add
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Recent Notifications (ReplaySubject) -->
+    <mat-card class="recent-card">
+        <mat-card-header>
+            <mat-card-title>Recent Activity (ReplaySubject — last 5)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="recent-list">
+                @if(recentNotifications.length === 0) {
+                <p class="empty-text">No recent activity</p>
+                }
+                @for(n of recentNotifications; track n.id) {
+                <div class="recent-item" [class]="'recent-item-' + n.type">
+                    <mat-icon class="recent-icon">{{ getIcon(n.type) }}</mat-icon>
+                    <div>
+                        <p class="recent-title">{{ n.title }}</p>
+                        <p class="recent-message">{{ n.message }}</p>
+                    </div>
+                </div>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- All Notifications (BehaviorSubject) -->
+    <mat-card class="all-notifications-card">
+        <mat-card-header>
+            <mat-card-title>All Notifications (BehaviorSubject)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+            @if(notifications.length === 0) {
+            <div class="empty-state">
+                <mat-icon>notifications_none</mat-icon>
+                <p>No notifications</p>
+            </div>
+            }
+
+            <div class="notification-list">
+                @for(notification of notifications; track notification.id) {
+                <div class="notification-item" [class.unread]="!notification.isRead"
+                    [class]="'notification-item ' + (!notification.isRead ? 'unread' : '')">
+
+                    <div class="notification-icon" [class]="'icon-' + notification.type">
+                        <mat-icon>{{ getIcon(notification.type) }}</mat-icon>
+                    </div>
+
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <span class="notification-title">{{ notification.title }}</span>
+                            <span class="notification-time">
+                                {{ notification.createdAt | date: 'dd MMM, hh:mm a' }}
+                            </span>
+                        </div>
+                        <p class="notification-message">{{ notification.message }}</p>
+                        <span class="type-badge" [class]="'badge-' + notification.type">
+                            {{ notification.type }}
+                        </span>
+                    </div>
+
+                    <div class="notification-actions">
+                        @if(!notification.isRead) {
+                        <button mat-icon-button color="primary" (click)="markAsRead(notification.id)"
+                            matTooltip="Mark as read">
+                            <mat-icon>mark_email_read</mat-icon>
+                        </button>
+                        }
+                        <button mat-icon-button color="warn" (click)="deleteNotification(notification.id)"
+                            matTooltip="Delete">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+
+                </div>
+                }
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+
+</div>

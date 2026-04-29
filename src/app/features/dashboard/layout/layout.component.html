@@ -18,7 +18,12 @@
             @if (!link.adminOnly || isAdmin) {
             <a mat-list-item [routerLink]="link.route" routerLinkActive="active-link">
                 <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
-                <span matListItemTitle>{{ link.label }}</span>
+                <span matListItemTitle>
+                    {{ link.label }}
+                    @if(link.route === '/notifications' && unreadCount > 0) {
+                    <span class="nav-badge">{{ unreadCount }}</span>
+                    }
+                </span>
             </a>
             }
             }
